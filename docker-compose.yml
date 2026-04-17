@@ -1,0 +1,15 @@
+services:
+  seismic:
+    build: .
+    image: dockerseismic:latest
+    container_name: seismic-dev
+    ports:
+      - "8888:8888"
+    volumes:
+      # Notebooks and scripts persist on your host machine
+      - ./notebooks:/workspace/notebooks
+      # Drop waveform data files (SAC, MiniSEED, etc.) here
+      - ./data:/workspace/data
+    environment:
+      - MPLBACKEND=Agg
+    restart: unless-stopped
