@@ -18,10 +18,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libxml2-dev \
         libxslt1-dev \
         curl \
+        sudo \
+        gmt \
+        gmt-dcw \
+        gmt-gshhg \
     && rm -rf /var/lib/apt/lists/*
 
 # Use a non-root user for better security
 RUN useradd -m -u 1000 seismic && chown -R seismic:seismic /workspace
+
+# Grant seismic user passwordless sudo access
+RUN echo "seismic ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Install Python packages as root first, then switch user
 COPY requirements.txt .
